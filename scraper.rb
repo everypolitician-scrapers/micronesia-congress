@@ -4,8 +4,8 @@
 require 'nokogiri'
 require 'open-uri'
 require 'csv'
+require 'scraperwiki'
 
-require 'pry'
 require 'open-uri/cached'
 OpenURI::Cache.cache_path = '.cache'
 
@@ -22,13 +22,34 @@ end
 def scrape_list(term, url)
   noko = noko_for(url)
   noko.xpath('.//p[contains(., "Speaker")]/ancestor::table//img').each do |img|
-    data = img.xpath('../following-sibling::p').map { |n| n && n.text.gsub(/[[:space:]]/, ' ').strip }.compact.reject(&:empty?)
+    info = img.xpath('../following-sibling::p').map { |n| n && n.text.gsub(/[[:space:]]/, ' ').strip }.compact.reject(&:empty?)
     # Work around Vice Speaker Martin having an extra level of # nesting
-    data = img.xpath('../../following-sibling::p').map { |n| n && n.text.strip }.compact if data.size.zero?
+    info = img.xpath('../../following-sibling::p').map { |n| n && n.text.strip }.compact if info.size.zero?
+    info.first.sub! 'Senator ', ''
 
-    data << URI.join(url, URI.escape(img.attr('src')))
-    data << term
-    puts data.to_csv
+    photo = URI.join(url, URI.escape(img.attr('src'))).to_s
+    # Ahem
+    if photo == 'http://www.fsmcongress.fm/images/18th%20Congress/18c%20fsm%20foto/christianweb.2.jpg'
+      info.unshift 'Peter M. Christian'
+    end
+
+    data = { 
+      term: term,
+      image: photo,
+      party: 'none',
+    }
+
+    if info[1].include? 'State of'
+      data[:name] = info[0]
+      data[:role] = ''
+      data[:area] = info[1].sub('State of ', '')
+    else 
+      data[:name] = info[1]
+      data[:role] = info[0]
+      data[:area] = "n/a"
+    end
+    puts data
+    ScraperWiki.save_sqlite([:name, :term], data)
   end
 end
 
