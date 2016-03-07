@@ -48,7 +48,7 @@ def scrape_list(term, url)
       data[:role] = info[0]
       data[:area] = "n/a"
     end
-    puts data
+    # puts data
     ScraperWiki.save_sqlite([:name, :term], data)
   end
 end
