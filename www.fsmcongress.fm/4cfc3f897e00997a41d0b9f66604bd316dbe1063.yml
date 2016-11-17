@@ -1,0 +1,39 @@
+---
+request:
+  method: get
+  uri: http://www.fsmcongress.fm/18th%20Congress/member.html
+  body:
+    encoding: US-ASCII
+    string: ''
+  headers:
+    Accept-Encoding:
+    - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+    Accept:
+    - '*/*'
+    User-Agent:
+    - Ruby
+response:
+  status:
+    code: 200
+    message: OK
+  headers:
+    Content-Length:
+    - '8315'
+    Content-Type:
+    - text/html
+    Last-Modified:
+    - Wed, 28 Jan 2015 01:06:34 GMT
+    Accept-Ranges:
+    - bytes
+    Etag:
+    - '"e2aaeaa8963ad01:d0c"'
+    Server:
+    - Microsoft-IIS/6.0
+    X-Powered-By:
+    - ASP.NET
+    Date:
+    - Thu, 17 Nov 2016 11:55:01 GMT
+  body:
+    encoding: UTF-8
+  http_version: 
+recorded_at: Thu, 17 Nov 2016 11:55:02 GMT
