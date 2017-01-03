@@ -4,17 +4,10 @@
 
 require 'nokogiri'
 require 'open-uri'
-require 'csv'
 require 'scraperwiki'
 
 require 'open-uri/cached'
 OpenURI::Cache.cache_path = '.cache'
-
-terms = {
-  19 => 'http://www.fsmcongress.fm/19th%20Congress/19members.html',
-  18 => 'http://www.fsmcongress.fm/18th%20Congress/member.html',
-  17 => 'http://www.fsmcongress.fm/17th%20Congress/members%20page.html',
-}
 
 def noko_for(url)
   Nokogiri::HTML(open(url).read)
@@ -49,11 +42,14 @@ def scrape_list(term, url)
       data[:role] = info[0]
       data[:area] = 'n/a'
     end
-    #  puts data
     ScraperWiki.save_sqlite(%i(name term), data)
   end
 end
 
-terms.each do |term, url|
-  scrape_list(term, url)
-end
+terms = {
+  19 => 'http://www.fsmcongress.fm/19th%20Congress/19members.html',
+  18 => 'http://www.fsmcongress.fm/18th%20Congress/member.html',
+  17 => 'http://www.fsmcongress.fm/17th%20Congress/members%20page.html',
+}
+
+terms.each { |term, url| scrape_list(term, url) }
