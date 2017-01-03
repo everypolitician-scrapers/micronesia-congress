@@ -1,5 +1,6 @@
 #!/bin/env ruby
 # encoding: utf-8
+# frozen_string_literal: true
 
 require 'nokogiri'
 require 'open-uri'
@@ -9,14 +10,14 @@ require 'scraperwiki'
 require 'open-uri/cached'
 OpenURI::Cache.cache_path = '.cache'
 
-terms = { 
+terms = {
   19 => 'http://www.fsmcongress.fm/19th%20Congress/19members.html',
   18 => 'http://www.fsmcongress.fm/18th%20Congress/member.html',
   17 => 'http://www.fsmcongress.fm/17th%20Congress/members%20page.html',
 }
 
 def noko_for(url)
-  Nokogiri::HTML(open(url).read) 
+  Nokogiri::HTML(open(url).read)
 end
 
 def scrape_list(term, url)
@@ -33,8 +34,8 @@ def scrape_list(term, url)
       info.unshift 'Peter M. Christian'
     end
 
-    data = { 
-      term: term,
+    data = {
+      term:  term,
       image: photo,
       party: 'none',
     }
@@ -43,13 +44,13 @@ def scrape_list(term, url)
       data[:name] = info[0]
       data[:role] = ''
       data[:area] = info[1].sub('State of ', '')
-    else 
+    else
       data[:name] = info[1]
       data[:role] = info[0]
-      data[:area] = "n/a"
+      data[:area] = 'n/a'
     end
-    # puts data
-    ScraperWiki.save_sqlite([:name, :term], data)
+    #  puts data
+    ScraperWiki.save_sqlite(%i(name term), data)
   end
 end
 
