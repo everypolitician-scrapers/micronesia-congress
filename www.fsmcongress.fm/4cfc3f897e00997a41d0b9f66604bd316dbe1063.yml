@@ -32,10 +32,10 @@ response:
     X-Powered-By:
     - ASP.NET
     Date:
-    - Mon, 14 Aug 2017 10:42:00 GMT
+    - Tue, 15 Aug 2017 00:26:12 GMT
     Set-Cookie:
-    - cookiesession1=0B9DCB0820922T1SSO9NP1S8LJPE0E6A;Path=/;HttpOnly
+    - cookiesession1=0B9DCB08CFC2IGTUIIHVPCCRADMEFBB6;Path=/;HttpOnly
   body:
     encoding: UTF-8
   http_version: 
-recorded_at: Mon, 14 Aug 2017 10:42:07 GMT
+recorded_at: Tue, 15 Aug 2017 00:26:24 GMT
